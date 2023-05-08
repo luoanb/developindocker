@@ -1,0 +1,34 @@
+version: "3.5"
+services:
+  nodejs:
+    tty: true
+    build: .
+    command: "/bin/sh &"
+    restart: always
+    ports:
+      - "10000:80"
+    networks:
+      - counter-net
+    volumes:
+      - type: volume
+        source: src
+        target: /usr/src/app
+  gitea:
+    image: gitea/gitea:dev-linux-amd64
+    restart: always
+    ports:
+      - "11000:22"
+      - "11001:3000"
+    networks:
+      - counter-net
+    volumes:
+      - type: volume
+        source: gitea
+        target: /data
+
+networks:
+  counter-net:
+
+volumes:
+  src:
+  gitea:
